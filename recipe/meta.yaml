@@ -10,35 +10,43 @@ source:
   sha256: 31c5874595c777f41cc191c34c66dbea215c8289a7b148b425fb7a10c3f4fbc8
 
 build:
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
   number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: True  # [py<36]
 
 requirements:
   host:
-    - flit-core >=3.2,<4
     - pip
-    - python {{ python_min }}
+    - python
+    - flit-core >=3.2,<4
   run:
+    - python
     - domdf-python-tools >=2.8.0
-    - python >={{ python_min }}
     - tomli >=1.2.3
+  run_constrained:
+    # requires-python = ">=3.6.1"
+    - python !=3.6.0
 
+# We can`t enable pytest because conftest uses the coincidence package, which is unavailable on the main channel.
+# The policy states that packages are not specifically built for testing.
 test:
   imports:
     - dom_toml
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
   requires:
     - pip
-    - python {{ python_min }}
 
 about:
   home: https://github.com/domdfcoding/dom_toml
   summary: Dom's tools for Tom's Obvious, Minimal Language.
   license: MIT
+  license_family: MIT
   license_file: LICENSE
-  doc_url: https://dom_toml.readthedocs.io/en/latest
+  description: Dom's tools for Tom's Obvious, Minimal Language.
+  doc_url: https://dom-toml.readthedocs.io
+  dev_url: https://github.com/domdfcoding/dom_toml
 
 extra:
   recipe-maintainers:
