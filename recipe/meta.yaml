@@ -25,7 +25,7 @@ requirements:
     - tomli >=1.2.3
   run_constrained:
     # requires-python = ">=3.6.1"
-    - python !=3.6.0
+    - python >=3.6.1
 
 # We can`t enable pytest because conftest uses the coincidence package, which is unavailable on the main channel.
 # The policy states that packages are not specifically built for testing.
