@@ -6,12 +6,8 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
-    sha256: 31c5874595c777f41cc191c34c66dbea215c8289a7b148b425fb7a10c3f4fbc8
-  # In GitHub releases, the latest version is 2.0.0.
-  - url: https://github.com/domdfcoding/{{ name.replace('-', '_')}}/archive/refs/tags/v2.0.0.tar.gz
-    sha256: dc25daca9a763c857b87fb2ac95d6d91fdb5495249d36d95c25de279d3648ca8
-    folder: gh_src
+  url: https://github.com/domdfcoding/{{ name.replace('-', '_')}}/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 342c785a1b347724a43e16fb94bc9b4752a6f770efae6e8e7904dd1e3f72a35e
 
 build:
   number: 1
@@ -33,13 +29,13 @@ requirements:
 
 test:
   source_files:
-    - gh_src/tests
+    - tests
   imports:
     - dom_toml
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -v gh_src/tests
+    - pytest -v tests
   requires:
     - pip
     - pytest
