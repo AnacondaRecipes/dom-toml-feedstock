@@ -38,8 +38,8 @@ test:
     - pytest -v tests
   requires:
     - pip
-    - pytest
-    - coincidence
+    - pytest >=6.0.0
+    - coincidence >=0.2.0
 
 about:
   home: https://github.com/domdfcoding/dom_toml
